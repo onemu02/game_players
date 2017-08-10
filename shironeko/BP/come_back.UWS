@@ -1,0 +1,4 @@
+//ACW(GETID("BlueStacks App Player","HwndWrapper[BlueStacks.exe;;168379e8-82e2-4dee-8080-bb8972653979]"),32,80,1962,1104,0)
+BTN(LEFT,CLICK,1068,122,0);sleep(5)
+BTN(LEFT,CLICK,1793,919,0);sleep(25)
+BTN(LEFT,CLICK,1186,1127,0);sleep(3)

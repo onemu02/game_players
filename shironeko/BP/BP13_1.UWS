@@ -1,0 +1,224 @@
+ACW(GETID("BlueStacks App Player","HwndWrapper[BlueStacks.exe;;70b9211e-157a-40fd-b687-52be473717e1]"),33,81,1962,1104,0)
+
+main()
+
+PROCEDURE goto_13_1()
+
+    // 4人協力
+    BTN(LEFT,CLICK,1143,402,0);sleep(2)
+
+    //星13
+    BTN(LEFT,CLICK,1092,625,16);sleep(2)
+
+    //渚のアクティビティ
+    BTN(LEFT,CLICK,1108,597,0);sleep(2)
+
+FEND
+
+
+PROCEDURE make_party()
+
+    //パーティー結成
+    BTN(LEFT,CLICK,1148,507,0);sleep(2)
+
+    //ランダム開放
+    BTN(LEFT,CLICK,1046,477,16);sleep(4)
+
+FEND
+
+PROCEDURE check_retry()
+    print " - クリアしました"
+
+    REPEAT
+        BTN(LEFT,CLICK,958,853,0)
+    UNTIL CHKIMG("retry.bmp",0,738,70,1375,1184)
+
+    //同じクエストスタート
+    BTN(LEFT,CLICK,958,1153,0)
+    print " - 再スタート";sleep(5.5)
+FEND
+
+FUNCTION party_config()
+    waiting_time = 0
+
+    //待ち時間が15秒以上だと作り直し
+    REPEAT
+        waiting_time = waiting_time + 1;sleep(1)
+        IFB waiting_time > 10 THEN
+            EXIT
+        ENDIF
+    UNTIL CHKIMG("quest_ready4.bmp",0,738,70,1375,1184)
+
+    RESULT = 1
+FEND
+
+
+FUNCTION quest_start()
+    flag = 0
+    count = 0
+  
+    REPEAT
+      //挑戦するボタン
+      BTN(LEFT,CLICK,1296,1146,0);sleep(0.5)
+
+
+      count = count + 1
+      //出発キャンセル
+      IFB CHKIMG("no_ready.bmp",0,800,300,1200,900) THEN 
+          BTN(LEFT,CLICK,984,832,0)
+          sleep(0.5)
+          IFB count > 10 THEN
+              print "完了押さない人"
+              flag = 1
+              BREAK
+          ENDIF
+      ELSEIF count > 150 THEN
+          print "バグってとまっている"
+          call come_back
+          call NM13
+          make_party()
+	  sleep(2)
+	  flag = 1
+	  BREAK
+	
+          //IFB  CHKIMG("party_inform_update.bmp",0) THEN
+          //ELSEIF CHKIMG("quest_ready_start.bmp",0) THEN
+          //ENDIF
+      ENDIF
+
+    UNTIL CHKIMG("quest_start.bmp",0,738,850,1075,1184)
+
+    IFB flag = 1 THEN
+        BTN(LEFT,CLICK,859,1134,0);sleep(1)
+    ENDIF
+    sleep(1)
+
+    RESULT = flag
+FEND
+
+
+PROCEDURE battle()
+    print " - バトル開始"
+
+    //ステージ1用
+    call s1_up;sleep(1)
+  
+    //ステージ2用
+    IFB CHKIMG("suika.bmp",0,738,70,1375,1184) THEN
+        print "スイカありました"
+    ELSE
+        print "スイカありません"
+    ENDIF
+    call s0
+    call s1_center_switch
+    sleep(3)
+    call s1_up
+  
+    sleep(7)
+    call s1_center_switch
+    //UNTIL CHKIMG("boss.bmp",0,738,70,1375,1184)
+  
+    print " - ボス面きた"
+    REPEAT
+        call s1_stay
+        sleep(3)
+    UNTIL CHKIMG("clear.bmp",0,738,70,1375,1184)
+FEND
+
+FUNCTION battle2()
+    print " - 開始"
+
+    time = 0
+    success = 1
+
+    call change;sleep(0.7)
+    //call s0
+    REPEAT
+        call s1_stay
+        BTN(LEFT,CLICK,958,853,0)
+        BTN(LEFT,CLICK,958,853,0)
+        sleep(2.2)
+        time = time + 1
+
+        IF time = 6 THEN call s1_loop
+
+        //失敗した場合
+        IFB CHKIMG("fail1.bmp",0,738,70,1375,1184) THEN
+	    print " - 負けてしまいました"
+            call fail1
+            success = 0
+	    BREAK
+	ELSEIF time > 50 THEN
+	    print "時間かかりすぎ"
+	    call fail2
+	    success = 0
+	    BREAK
+        ENDIF
+
+    UNTIL CHKIMG("clear2.bmp",0,738,70,1175,284)
+
+    //成功したら1を返す
+    RESULT = success
+FEND
+
+PROCEDURE make_party_loop()
+
+    REPEAT
+        party_flag = 0
+        make_party()
+        party_flag = party_config()
+        IF party_flag = 0 THEN BTN(LEFT,CLICK,859,1134,0)
+	sleep(1)
+    UNTIL party_flag = 1
+
+FEND
+
+
+PROCEDURE main()
+    //goto_13_1()
+    call NM13
+
+    FOR A = 1 TO 1000
+        FOR B = 1 TO 100
+            GETTIME()
+            print A + ":" + B + "回目 " + G_TIME_HH + ":" + G_TIME_NN + ":" + G_TIME_SS
+
+            x = B MOD 50
+            IFB x = 0 THEN
+                print " - 2倍書使います"
+                call roon_2x
+            ENDIF
+
+            flag = 0
+	    flag_count = 0
+            REPEAT
+                make_party()
+                F = quest_start()
+		flag_count = flag_count + 1
+		IFB flag_count = 2 THEN
+		  print "強制再起動"
+		  flag = 1
+		  BREAK
+		ENDIF
+            UNTIL F = 0
+
+	    IF flag = 1 THEN BREAK
+  
+            //成功したらリトライをする
+            OK = battle2()
+            IFB OK = 1 THEN
+                check_retry()
+            ELSE
+                print " - 失敗した";sleep(7)
+                call NM13
+            ENDIF
+        NEXT
+
+        print "再起動"
+	call re_start_bs
+	call NM13
+    NEXT
+
+    print "完了！！"
+
+FEND

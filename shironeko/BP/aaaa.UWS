@@ -1,0 +1,7 @@
+IFB CHKIMG("title.bmp",0) THEN
+  BTN(LEFT,CLICK,1047,1015,0)
+  print "aaa"
+ELSE
+  print "noo"
+ENDIF
+

@@ -1,0 +1,37 @@
+//閉じる
+BTN(LEFT,CLICK,1963,116,0);sleep(2)
+//いいえ
+BTN(LEFT,CLICK,851,802,0);sleep(3)
+//ダブルクリック
+BTN(LEFT,CLICK,506,60,0)
+BTN(LEFT,DOWN,506,60,188)
+BTN(LEFT,UP,519,62,78)
+sleep(20)
+//グーグルプレイ選択
+BTN(LEFT,CLICK,917,442,969)
+BTN(LEFT,CLICK,917,442,94)
+sleep(8)
+//ゲーム検索選択
+BTN(LEFT,CLICK,699,245,281)
+sleep(5)
+//白猫選択
+BTN(LEFT,CLICK,579,374,1953)
+sleep(8)
+//開く選択
+BTN(LEFT,CLICK,1805,927,0)
+sleep(20)
+//広告閉じる
+BTN(LEFT,CLICK,1921,241,0)
+sleep(30)
+
+//タイトル画面
+IFB CHKIMG("title.bmp,0",0) THEN
+  BTN(LEFT,CLICK,1041,1011,0)
+  sleep(10)
+ENDIF
+
+IF CHKIMG("game_start_news.bmp",0) THEN BTN(LEFT,CLICK,1068,1128,0)
+sleep(3)
+//協力バトル
+BTN(LEFT,CLICK,1178,1128,0)
+sleep(10)

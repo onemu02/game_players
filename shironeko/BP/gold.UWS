@@ -1,0 +1,9 @@
+call gold_go
+
+FOR A = 0 TO 9
+  BTN(LEFT,CLICK,1264,571,0);sleep(0.6)
+  BTN(LEFT,CLICK,1178,765,16);sleep(0.6)
+  BTN(LEFT,CLICK,1101,795,0);sleep(0.6)
+NEXT
+
+call gold_make
