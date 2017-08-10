@@ -1,0 +1,17 @@
+ACW(GETID("BlueStacks App Player","HwndWrapper[BlueStacks.exe;;af0eca99-0c34-46f9-9f0f-7753105c6532]"),10,89,2016,1134,0)
+
+REPEAT
+  //スキルボタン
+  BTN(LEFT,CLICK,1113,1172,0)
+  sleep(1)
+  //スキルチェンジ
+  BTN(LEFT,CLICK,1266,774,0)
+  sleep(1)
+  //演出カット
+  BTN(LEFT,CLICK,1071,903,0)
+  sleep(1)
+  BTN(LEFT,CLICK,1071,903,0)
+  sleep(1)
+  BTN(LEFT,CLICK,1071,903,0)
+  sleep(3)
+UNTIL CHKIMG("exp_30.bmp",0)

@@ -1,0 +1,3 @@
+MMV(1075,800,1625)
+ACW(GETID("BlueStacks App Player","HwndWrapper[BlueStacks.exe;;6f70ee81-81db-43ba-8add-a41304330271]"),10,88,2016,1134,0)
+BTN(LEFT,CLICK,1075,800,0)

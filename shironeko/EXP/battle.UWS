@@ -1,0 +1,72 @@
+
+ACW(GETID("BlueStacks App Player","HwndWrapper[BlueStacks.exe;;ca9fcb52-d3ce-4f61-9ab6-2d081576d723]"),10,88,2016,1134,0)
+FOR B = 0 TO 12
+  print B
+  battle()
+NEXT
+
+PROCEDURE battle()
+
+  CALL start.uws
+  sleep(5)
+
+  flag = 0
+  FOR A = 0 TO 120
+      REPEAT
+        sleep(1)
+	IFB CHKIMG("item.bmp",0) THEN
+	  flag = 1
+	  sleep(0.5)
+       	  BTN(LEFT,CLICK,1090,840,0)
+	ENDIF
+      UNTIL CHKIMG("exp_start.bmp",0)
+      
+      //バトル開始OK
+      BTN(LEFT,CLICK,1099,937,0)
+      MMV(1293,447,702)
+      //ユキムラ選択
+      BTN(LEFT,CLICK,1293,447,0)
+      MMV(1053,836,1171)
+      //スキル2
+      skill2()
+      
+      REPEAT
+        BTN(LEFT,CLICK,1293,447,20)
+        sleep(0.1)
+	skill2()
+        sleep(0.1)
+	//建設OK
+        BTN(LEFT,CLICK,1083,800,0)
+      UNTIL  CHKIMG("restart.bmp",0)
+      sleep(0.5)
+
+      IF A > 115 THEN BREAK
+      IF flag > 0 THEN BREAK
+      
+      //再挑戦ボタン
+      BTN(LEFT,CLICK,958,1161,0)
+      MMV(1193,810,1062)
+      //OK
+      BTN(LEFT,CLICK,1193,810,0)
+  NEXT
+  
+  sleep(1)
+  //OK
+  BTN(LEFT,CLICK,1159,1135,0)
+  sleep(10)
+FEND
+
+PROCEDURE skill2()
+  BTN(LEFT,DOWN,1053,836,0)
+  MMV(1076,817,563)
+  MMV(1090,802,16)
+  MMV(1110,785,15)
+  MMV(1121,775,16)
+  MMV(1144,754,15)
+  MMV(1154,744,16)
+  MMV(1172,724,16)
+  MMV(1181,713,15)
+  MMV(1203,691,16)
+  MMV(1226,667,16)
+  BTN(LEFT,UP,1226,667,15)
+FEND 
